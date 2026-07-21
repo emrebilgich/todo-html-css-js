@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaTask | Gelişmiş Görev Yönetimi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <!-- KİMLİK DOĞRULAMA (GİRİŞ/KAYIT) EKRANI -->
+    <!-- Not: 'active' class'ını buradan kaldırdık, JS ile yöneteceğiz -->
+    <div class="auth-overlay" id="authScreen">
+        <div class="auth-box">
+            <div class="auth-header">
+                <i class="ph ph-check-circle logo-icon"></i>
+                <h2>NovaTask</h2>
+                <p>Devam etmek için giriş yapın veya hesap oluşturun</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin">Giriş Yap</button>
+                <button class="auth-tab" id="tabRegister">Kayıt Ol</button>
+            </div>
+            
+            <div class="auth-form">
+                <div class="form-group">
+                    <label>E-posta Adresi</label>
+                    <input type="email" id="authEmail" placeholder="ornek@mail.com">
+                </div>
+                <div class="form-group">
+                    <label>Şifre (En az 6 haneli)</label>
+                    <input type="password" id="authPassword" placeholder="••••••••">
+                </div>
+                <button class="btn-primary auth-submit" id="btnAuthSubmit">Giriş Yap</button>
+                <p class="auth-error" id="authError"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANA UYGULAMA KAPSAYICISI -->
+    <!-- DİKKAT: id="appContainer" etiketin İÇİNE alındı, dışarıdaki yazı silindi -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        
+        <!-- SOL MENÜ (SIDEBAR) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="ph ph-check-circle logo-icon"></i>
+                <h2>NovaTask</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="btnListView">
+                    <i class="ph ph-list-bullets"></i>
+                    Tüm Görevler
+                </a>
+                <a href="#" class="nav-item" id="btnKanbanView">
+                    <i class="ph ph-kanban"></i>
+                    Pano Görünümü
+                </a>
+            </nav>
+
+            <!-- GÜNCELLENEN KISIM: İçi JS ile doldurulacak -->
+            <div class="sidebar-section">
+                <h3>Kategoriler</h3>
+                <div id="categoryListContainer">
+                    <!-- Dinamik kategoriler buraya gelecek -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- ANA İÇERİK ALANI -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Görevlerde ara (Kısayol: F)">
+                </div>
+                
+                <div class="user-actions">
+                    <button class="btn-theme-toggle"><i class="ph ph-moon"></i></button>
+                    
+                    <!-- PROFİL MENÜSÜ KAPSAYICISI -->
+                    <div class="user-avatar" id="userProfileBtn">
+                        <img id="avatarImage" src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User">
+                        
+                        <!-- AÇILIR MENÜ (DROPDOWN) -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <span class="dropdown-name" id="dropdownUserName">Kullanıcı Adı</span>
+                                <span class="dropdown-role">Standart Üye</span>
+                            </div>
+                            <button class="dropdown-item" id="btnLogoutBtn">
+                                <i class="ph ph-sign-out"></i> Çıkış Yap
+                            </button>
+                            <button class="dropdown-item text-danger" id="btnDeleteAccount">
+                                <i class="ph ph-trash"></i> Hesabı Sil
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="page-header">
+                    <h2>Tüm Görevler</h2>
+                    <button class="btn-primary" id="btnOpenModal">
+                        <i class="ph ph-plus"></i>
+                        Yeni Görev
+                    </button>
+                </div>
+                
+                <div class="views-wrapper">
+                    <!-- LİSTE GÖRÜNÜMÜ -->
+                    <div id="listView" class="view-panel active">
+                        <div class="task-list" id="taskListContainer"></div>
+                    </div>
+
+                    <!-- KANBAN PANO GÖRÜNÜMÜ -->
+                    <div id="kanbanView" class="view-panel">
+                        <div class="kanban-board">
+                            <div class="kanban-column" data-status="todo">
+                                <div class="kanban-header">
+                                    <span class="kanban-title">Yapılacaklar</span>
+                                    <span class="kanban-count">0</span>
+                                </div>
+                                <div class="kanban-dropzone"></div>
+                            </div>
+                            <div class="kanban-column" data-status="in-progress">
+                                <div class="kanban-header">
+                                    <span class="kanban-title">Yapılıyor</span>
+                                    <span class="kanban-count">0</span>
+                                </div>
+                                <div class="kanban-dropzone"></div>
+                            </div>
+                            <div class="kanban-column" data-status="completed">
+                                <div class="kanban-header">
+                                    <span class="kanban-title">Tamamlandı</span>
+                                    <span class="kanban-count">0</span>
+                                </div>
+                                <div class="kanban-dropzone"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- MODAL (YENİ GÖREV PENCERESİ) -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Görev Ekle</h3>
+                <button class="btn-icon" id="closeModalBtn"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Görev Başlığı</label>
+                    <input type="text" id="newTaskTitle" placeholder="Ne yapılması gerekiyor?">
+                </div>
+                <!-- KATEGORİ ALANI -->
+                <div class="form-group">
+                    <label>Kategori / Proje Başlığı (Örn: Ders, Staj, Ev)</label>
+                    <input type="text" id="newTaskCategory" placeholder="Hangi başlık altında olacak?" value="Genel">
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label>Öncelik</label>
+                        <select id="newTaskPriority">
+                            <option value="low">Düşük</option>
+                            <option value="high">Yüksek</option>
+                            <option value="critical">Kritik</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bitiş Tarihi</label>
+                        <input type="date" id="newTaskDate">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelModalBtn">İptal</button>
+                <button class="btn-primary" id="saveTaskBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase ve Uygulama Scriptleri -->
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
