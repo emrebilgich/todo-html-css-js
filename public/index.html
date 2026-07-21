@@ -10,8 +10,7 @@
 </head>
 <body class="light-theme">
 
-    <!-- KİMLİK DOĞRULAMA (GİRİŞ/KAYIT) EKRANI -->
-    <!-- Not: 'active' class'ını buradan kaldırdık, JS ile yöneteceğiz -->
+    <!-- GİRİŞ/KAYIT EKRANI -->
     <div class="auth-overlay" id="authScreen">
         <div class="auth-box">
             <div class="auth-header">
@@ -41,10 +40,9 @@
     </div>
 
     <!-- ANA UYGULAMA KAPSAYICISI -->
-    <!-- DİKKAT: id="appContainer" etiketin İÇİNE alındı, dışarıdaki yazı silindi -->
     <div class="app-container" id="appContainer" style="display: none;">
         
-        <!-- SOL MENÜ (SIDEBAR) -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <i class="ph ph-check-circle logo-icon"></i>
@@ -62,16 +60,14 @@
                 </a>
             </nav>
 
-            <!-- GÜNCELLENEN KISIM: İçi JS ile doldurulacak -->
             <div class="sidebar-section">
                 <h3>Kategoriler</h3>
                 <div id="categoryListContainer">
-                    <!-- Dinamik kategoriler buraya gelecek -->
                 </div>
             </div>
         </aside>
 
-        <!-- ANA İÇERİK ALANI -->
+        <!-- MAIN -->
         <main class="main-content">
             <header class="top-header">
                 <div class="search-bar">
@@ -82,11 +78,11 @@
                 <div class="user-actions">
                     <button class="btn-theme-toggle"><i class="ph ph-moon"></i></button>
                     
-                    <!-- PROFİL MENÜSÜ KAPSAYICISI -->
+                    <!-- PROFİL MENÜSÜ -->
                     <div class="user-avatar" id="userProfileBtn">
                         <img id="avatarImage" src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User">
                         
-                        <!-- AÇILIR MENÜ (DROPDOWN) -->
+                        <!-- AÇILIR MENÜ -->
                         <div class="profile-dropdown" id="profileDropdown">
                             <div class="dropdown-header">
                                 <span class="dropdown-name" id="dropdownUserName">Kullanıcı Adı</span>
@@ -114,12 +110,12 @@
                 </div>
                 
                 <div class="views-wrapper">
-                    <!-- LİSTE GÖRÜNÜMÜ -->
+                    <!-- LİSTE  -->
                     <div id="listView" class="view-panel active">
                         <div class="task-list" id="taskListContainer"></div>
                     </div>
 
-                    <!-- KANBAN PANO GÖRÜNÜMÜ -->
+                    <!-- KANBAN PANO -->
                     <div id="kanbanView" class="view-panel">
                         <div class="kanban-board">
                             <div class="kanban-column" data-status="todo">
@@ -150,7 +146,7 @@
         </main>
     </div>
     
-    <!-- MODAL (YENİ GÖREV PENCERESİ) -->
+    <!-- YENİ GÖREV PENCERE -->
     <div class="modal-overlay" id="taskModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -189,7 +185,7 @@
         </div>
     </div>
 
-    <!-- Firebase ve Uygulama Scriptleri -->
+    <!-- Script -->
     <script type="module" src="./app.js"></script>
 </body>
 </html>
