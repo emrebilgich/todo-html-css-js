@@ -1,6 +1,5 @@
-/* --- TASARIM SİSTEMİ & CSS DEĞİŞKENLERİ --- */
 :root {
-    /* Ana Marka Renkleri */
+    /* Ana Renkler */
     --primary: #6366f1;
     --primary-hover: #4f46e5;
     --primary-light: #e0e7ff;
@@ -28,7 +27,7 @@
     --border-color: #e2e8f0;
 }
 
-/* Karanlık Tema (Dark Theme) Renkleri - YENİ EKLENDİ */
+/* Karanlık Tema Renkleri */
 .dark-theme {
     --bg-body: #0f172a;
     --bg-surface: #1e293b;
@@ -38,7 +37,7 @@
     --border-color: #334155;
 }
 
-/* --- TEMEL AYARLAR --- */
+/* --- AYARLAR --- */
 * {
     margin: 0;
     padding: 0;
@@ -61,7 +60,7 @@ body {
     height: 100vh;
 }
 
-/* --- ÖZEL KAYDIRMA ÇUBUĞU (SCROLLBAR) - YENİ EKLENDİ --- */
+/* --- KAYDIRMA ÇUBUĞU --- */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -77,7 +76,7 @@ body {
     background: var(--text-muted);
 }
 
-/* --- LAYOUT (ARAYÜZ YERLEŞİMİ) --- */
+/* --- ARAYÜZ --- */
 .sidebar {
     width: 260px;
     background-color: var(--bg-surface);
@@ -96,7 +95,7 @@ body {
     transition: var(--transition);
 }
 
-/* --- SIDEBAR BİLEŞENLERİ --- */
+/* --- SIDEBAR  --- */
 .sidebar-header {
     display: flex;
     align-items: center;
@@ -147,7 +146,7 @@ body {
     border-radius: 50%;
 }
 
-/* --- ÜST MENÜ (HEADER) --- */
+/* --- ÜST MENÜ  --- */
 .top-header {
     height: 70px;
     display: flex;
@@ -205,7 +204,7 @@ body {
     border-radius: 50%;
 }
 
-/* --- İÇERİK ALANI (CONTENT AREA) --- */
+/* --- İÇERİK ALANI --- */
 .content-area {
     padding: 40px;
     flex: 1;
@@ -247,7 +246,7 @@ body {
     color: var(--text-muted);
 }
 
-/* --- GÖREV LİSTESİ VE KARTLARI --- */
+/* --- GÖREV LİSTESİ --- */
 .task-list { display: flex; flex-direction: column; gap: 12px; }
 
 .task-item {
@@ -302,7 +301,7 @@ body {
 .btn-icon:hover { background-color: var(--bg-surface-hover); color: var(--primary); }
 .btn-delete:hover { color: var(--danger); }
 
-/* --- MODAL (AÇILIR PENCERE) --- */
+/* --- AÇILIR PENCERE --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -345,7 +344,7 @@ body {
 }
 .btn-secondary:hover { background-color: var(--bg-surface-hover); }
 
-/* --- GÖRÜNÜM YÖNETİMİ (VIEWS) --- */
+/* --- GÖRÜNÜM YÖNETİMİ  --- */
 .view-panel { display: none; animation: fadeIn 0.3s ease; }
 .view-panel.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -376,7 +375,7 @@ body {
 .kanban-dropzone {
     flex: 1; display: flex; flex-direction: column; gap: 12px;
     overflow-y: auto; border-radius: var(--radius-sm); transition: var(--transition);
-    padding-bottom: 20px; /* Sürükleme boşluğu */
+    padding-bottom: 20px;
 }
 
 .kanban-dropzone.drag-over {
@@ -391,7 +390,7 @@ body {
 .kanban-card:hover { border-color: var(--primary-light); }
 .kanban-card:active { cursor: grabbing; box-shadow: var(--shadow-lg); opacity: 0.8; transform: scale(0.98); }
 .kanban-card .task-title { font-size: 14px; margin-bottom: 12px; }
-/* --- KİMLİK DOĞRULAMA (AUTH) EKRANI --- */
+/* --- AUTH  --- */
 .auth-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: var(--bg-body);
@@ -422,7 +421,7 @@ body {
 
 .auth-submit { width: 100%; margin-top: 10px; justify-content: center; }
 .auth-error { color: var(--danger); font-size: 12px; text-align: center; min-height: 18px; }
-/* --- KATEGORİ BAŞLIKLARI VE ETİKETLERİ (ADIM 3) --- */
+/* --- KATEGORİLER --- */
 .category-group {
     margin-bottom: 30px;
     animation: fadeIn 0.4s ease;
@@ -455,7 +454,6 @@ body {
     gap: 4px;
 }
 
-/* Karanlık Tema Uyumluluğu */
 .dark-theme .category-header {
     border-bottom-color: var(--border-color);
 }
@@ -463,20 +461,16 @@ body {
     background-color: var(--bg-surface-hover);
     color: var(--text-main);
 }
-/* ==========================================
-   --- ADIM 5: PROFİL AÇILIR MENÜSÜ (DROPDOWN) ---
-   ========================================== */
+/* PROFİL MENÜ */
 
-/* Profil menüsünün kapsayıcısı (Header içindeki yerleşimi için relative yapıyoruz) */
 .user-avatar {
     position: relative;
     cursor: pointer;
 }
 
-/* Açılır Menü Kutusu */
 .profile-dropdown {
     position: absolute;
-    top: 50px; /* Avatarın hemen altından başlasın */
+    top: 50px;
     right: 0;
     width: 200px;
     background-color: var(--bg-surface);
@@ -488,21 +482,18 @@ body {
     padding: 8px 0;
     z-index: 1000;
     
-    /* Varsayılan olarak gizli ve yukarı kaymış durumda */
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
     transition: var(--transition);
 }
 
-/* Active sınıfı eklendiğinde menü görünür olur ve aşağı kayar */
 .profile-dropdown.active {
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
 }
 
-/* Menü içindeki metinler (Kullanıcı adı vb.) */
 .dropdown-header {
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
@@ -516,7 +507,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-main);
-    word-break: break-all; /* Uzun mailleri alt satıra kırar */
+    word-break: break-all;
 }
 
 .dropdown-role {
@@ -524,7 +515,7 @@ body {
     color: var(--text-muted);
 }
 
-/* Menü Öğeleri (Butonlar) */
+/* Menü  */
 .dropdown-item {
     padding: 10px 16px;
     display: flex;
@@ -554,7 +545,6 @@ body {
     color: var(--primary);
 }
 
-/* Tehlikeli İşlem (Hesap Silme) İçin Özel Renklendirme */
 .dropdown-item.text-danger {
     color: var(--danger);
     margin-top: 4px;
@@ -566,10 +556,9 @@ body {
 }
 
 .dropdown-item.text-danger:hover {
-    background-color: #fef2f2; /* Uçuk kırmızı arkaplan */
+    background-color: #fef2f2;
 }
 
-/* Karanlık temada tehlikeli işlem hover rengi */
 .dark-theme .dropdown-item.text-danger:hover {
     background-color: rgba(239, 68, 68, 0.1); 
 }
