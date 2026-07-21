@@ -1,13 +1,13 @@
-// --- 1. FIREBASE KÜTÜPHANELERİNİ İÇE AKTARMA (IMPORT) ---
+// IMPORT
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
     getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { 
     getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"; // deleteUser eklendi!
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// --- 2. FIREBASE YAPILANDIRMASI ---
+// FIREBASE
 const firebaseConfig = {
     apiKey: "",
     authDomain: "",
@@ -22,7 +22,7 @@ const db = getFirestore(app);
 const auth = getAuth(app); 
 const tasksCollection = collection(db, "tasks");
 
-// --- 3. UYGULAMA DURUMU (STATE) ---
+// STATE
 let tasks = []; 
 let currentView = 'list';
 let searchQuery = '';
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAuthSubmit = document.getElementById('btnAuthSubmit');
     const authError = document.getElementById('authError');
     
-    // Profil ve Dropdown Elementleri (YENİ)
+    // Profil Elementleri
     const userProfileBtn = document.getElementById('userProfileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
     const dropdownUserName = document.getElementById('dropdownUserName');
@@ -72,38 +72,32 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.toggle('light-theme');
     });
 
-    // --- 4. PROFİL MENÜSÜ İŞLEMLERİ (YENİ) ---
-    
-    // Avatar tıklanınca menüyü aç/kapat
+    // PROFİL MENÜSÜ İŞLEMLERİ
     userProfileBtn.addEventListener('click', (e) => {
         profileDropdown.classList.toggle('active');
-        e.stopPropagation(); // Tıklamanın body'ye ulaşmasını engelle (Event Bubbling)
+        e.stopPropagation();
     });
 
-    // Boşluğa tıklayınca menüyü kapat
     document.addEventListener('click', (e) => {
         if (!userProfileBtn.contains(e.target)) {
             profileDropdown.classList.remove('active');
         }
     });
 
-    // Menüden Çıkış Yap
     btnLogoutBtn.addEventListener('click', async () => {
         await signOut(auth);
-        profileDropdown.classList.remove('active'); // Çıkarken menüyü kapa
+        profileDropdown.classList.remove('active');
     });
 
-    // Menüden Hesabı Sil (Tehlikeli İşlem)
     btnDeleteAccount.addEventListener('click', async () => {
         const confirmDelete = confirm("DİKKAT: Hesabınızı kalıcı olarak silmek istediğinize emin misiniz? Verileriniz geri alınamaz!");
         
         if (confirmDelete) {
             try {
-                await deleteUser(currentUser); // Firebase'den kullanıcıyı siler
+                await deleteUser(currentUser);
                 alert("Hesabınız başarıyla silindi. Hoşça kalın!");
             } catch (error) {
                 console.error("Hesap silme hatası:", error);
-                // Güvenlik: Kullanıcı uzun süredir hesaptaysa Firebase şifreyi tekrar girmesini (Re-authenticate) isteyebilir.
                 if (error.code === 'auth/requires-recent-login') {
                     alert("Güvenlik nedeniyle hesabınızı silmek için lütfen çıkış yapıp, tekrar giriş yapın ve bu işlemi tekrarlayın.");
                 } else {
@@ -115,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // --- 5. KİMLİK DOĞRULAMA (AUTH) İŞLEMLERİ ---
+    //  AUTH İŞLEMLERİ
 
     let isLoginMode = true; 
     tabLogin.addEventListener('click', () => {
@@ -146,14 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Auth State Observer
-    // --- Auth State Observer GÜNCELLEMESİ ---
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
             authScreen.classList.remove('active'); 
             appContainer.style.display = 'flex'; 
             
-            // Arayüzdeki resim ve isimleri güncelle
             avatarImage.src = `https://ui-avatars.com/api/?name=${user.email}&background=6366f1&color=fff`;
             dropdownUserName.textContent = user.email;
             
@@ -164,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
             renderTasks();
             appContainer.style.display = 'none'; 
             
-            // DİKKAT: Giriş ekranını sadece kullanıcı kesinlikle çıkış yaptıysa veya giriş yapmadıysa göster
             authScreen.classList.add('active'); 
             
             authEmail.value = ''; authPassword.value = '';
@@ -173,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // --- 6. FIREBASE CRUD (VERİ İŞLEMLERİ) ---
+    // FIREBASE CRUD
 
     async function loadTasksFromFirebase() {
         if (!currentUser) return; 
@@ -246,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // --- 7. ARAYÜZ VE GÖRÜNÜM ---
+    // ARAYÜZ VE GÖRÜNÜM
 
     searchInput.addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase().trim(); renderTasks(); });
     document.addEventListener('keydown', (e) => {
@@ -273,28 +264,22 @@ document.addEventListener("DOMContentLoaded", () => {
     btnKanbanView.addEventListener('click', () => switchView('kanban'));
 
     function renderTasks() {
-        // 1. Önce Arama ve Kategori Filtrelerini Uygula
         const filteredTasks = tasks.filter(task => {
             const matchesSearch = task.title.toLowerCase().includes(searchQuery);
             const matchesCategory = activeCategoryFilter ? (task.category || "Genel") === activeCategoryFilter : true;
             return matchesSearch && matchesCategory;
         });
 
-        // 2. Sol Menüdeki Dinamik Kategori Listesini Çiz (YENİ EKLENDİ)
         renderSidebarCategories();
 
-        // 3. Görevleri Çiz (Liste veya Kanban)
         if (currentView === 'list') renderList(filteredTasks); else renderKanban(filteredTasks);
     }
 
-    // --- YENİ EKLENEN: SOL MENÜ KATEGORİ OLUŞTURUCU ---
     function renderSidebarCategories() {
-        // Tüm görevlerin kategorilerini topla (tekrarları engelle)
         const categories = [...new Set(tasks.map(t => t.category || "Genel"))];
         
-        categoryListContainer.innerHTML = ''; // Eski listeyi temizle
+        categoryListContainer.innerHTML = '';
 
-        // Tümünü Göster Butonu (Eğer bir filtre seçiliyse çıkar)
         if (activeCategoryFilter !== null) {
             const clearFilterBtn = document.createElement('a');
             clearFilterBtn.href = "#";
@@ -308,20 +293,16 @@ document.addEventListener("DOMContentLoaded", () => {
             categoryListContainer.appendChild(clearFilterBtn);
         }
 
-        // Bulunan Kategorileri Menüye Ekle
         categories.forEach(cat => {
             const catItem = document.createElement('a');
             catItem.href = "#";
-            // Eğer bu kategori seçiliyse aktif tasarımını uygula
             catItem.className = `nav-item ${activeCategoryFilter === cat ? 'active' : ''}`;
             
-            // Renkli nokta (hash ile rengi hafif değiştiririz)
             const dotColor = activeCategoryFilter === cat ? 'var(--primary)' : 'var(--text-muted)';
             catItem.innerHTML = `<span class="color-dot" style="background: ${dotColor};"></span> ${cat}`;
             
             catItem.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Aynı kategoriye tekrar tıklarsa filtreyi kaldır, farklıysa uygula
                 activeCategoryFilter = activeCategoryFilter === cat ? null : cat;
                 renderTasks();
             });
