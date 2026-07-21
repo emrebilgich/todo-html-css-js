@@ -9,12 +9,12 @@ import {
 
 // --- 2. FIREBASE YAPILANDIRMASI ---
 const firebaseConfig = {
-    apiKey: "AIzaSyBC5YL4VLgdI_9-9Nljaf4xvVpJp3SuliI",
-    authDomain: "todo-f38b8.firebaseapp.com",
-    projectId: "todo-f38b8",
-    storageBucket: "todo-f38b8.firebasestorage.appspot.com",
-    messagingSenderId: "783997273048",
-    appId: "1:783997273048:web:e0497979a8f6c3c500a8ad"
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
 };
 
 const app = initializeApp(firebaseConfig);
